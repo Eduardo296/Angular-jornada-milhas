@@ -1,0 +1,62 @@
+<section class="modal">
+    <h1 mat-dialog-title>Viajante</h1>
+    <div class="row" mat-dialog-content>
+        <div class="selecao-idade">
+            <ul>
+                <li>Adultos</li>
+                <li>(Acima de 12 anos)</li>
+                <li class="selecao-pessoa">
+                    <button mat-mini-fab>
+                        <img src="assets/icones/do_not_disturb_on.png" alt="subtração">
+                    </button>
+                    <span>0</span>
+                    <button mat-mini-fab>
+                        <img src="assets/icones/add_circle.png" alt="adição">
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="selecao-idade">
+            <ul>
+                <li>Crianças</li>
+                <li>(Entre 2 e 11 anos)</li>
+                <li class="selecao-pessoa">
+                    <button mat-mini-fab>
+                        <img src="assets/icones/do_not_disturb_on.png" alt="subtração">
+                    </button>
+                    <span>1</span>
+                    <button mat-mini-fab>
+                        <img src="assets/icones/add_circle.png" alt="adição">
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="selecao-idade">
+            <ul>
+                <li>Bebês</li>
+                <li>(Até 2 anos)</li>
+                <li class="selecao-pessoa">
+                    <button mat-mini-fab>
+                        <img src="assets/icones/do_not_disturb_on.png" alt="subtração">
+                    </button>
+                    <span>0</span>
+                    <button mat-mini-fab>
+                        <img src="assets/icones/add_circle.png" alt="adição">
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="tipo">
+        <p>Categoria</p>
+        <mat-chip-listbox aria-label="Seleção de passagens">
+            <mat-chip-option selected>Econômica</mat-chip-option>
+            <mat-chip-option>Executiva</mat-chip-option>
+        </mat-chip-listbox>
+    </div>
+    <div class="open-close" mat-dialog-actions>
+        <button mat-button mat-dialog-close class="cancel" (click)="closeDialog()">Cancelar</button>
+        <button mat-button cdkFocusInitial class="add">Adiconar</button>
+    </div>
+</section>

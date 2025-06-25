@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    width: 290px;
+    gap: 16px;
+    padding: 12px 16px;
+    background-color: #F5F5F5;
+    .image {
+        img {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+        }
+    }
+    p {
+        margin: 0px;
+        text-align: justify;
+        color: #49454F;
+    }
+
+}

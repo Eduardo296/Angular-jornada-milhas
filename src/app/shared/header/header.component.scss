@@ -1,0 +1,59 @@
+mat-toolbar {
+  background-color: #1D1B20;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0rem 13.75rem;
+  height: 4.5rem;
+}
+
+.Vender {
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.Vender:hover {
+  text-decoration: underline;
+}
+
+.Sobre {
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.Sobre:hover {
+  text-decoration: underline;
+}
+
+.buttons {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.cadastre-button {
+  border-radius: 6px;
+}
+
+.login-button {
+  border-radius: 6px;
+}
+
+.image img {
+    display: flex;
+    align-items: center;
+    width: 10rem;
+    height: 2.5rem;
+}
+
+.mat-mdc-outlined-button:not(:disabled) {
+    color: white
+}
