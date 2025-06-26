@@ -6,7 +6,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl } from '@angular/forms';
 import { DatePipe, CommonModule } from '@angular/common'
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
@@ -16,6 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
+import { DropdownUfComponent } from './dropdown-uf/dropdown-uf.component';
 
 export const MY_DATE_FORMATS = {
   parse: { dateInput: 'DD/MM/YYYY' },
@@ -42,7 +42,8 @@ registerLocaleData(localePt, 'pt-BR');
     CommonModule,
     FormsModule,
     MatNativeDateModule,
-    MatButtonModule
+    MatButtonModule,
+    DropdownUfComponent
   ],
   templateUrl: './form-busca.component.html',
   styleUrl: './form-busca.component.scss',

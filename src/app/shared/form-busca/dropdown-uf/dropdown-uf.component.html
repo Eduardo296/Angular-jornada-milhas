@@ -1,0 +1,13 @@
+<div>
+    <mat-form-field class="teste" appearance="outline">
+        <mat-label>{{ label }}</mat-label>
+        <input matInput [matAutocomplete]="auto" [formControl]="myControl">
+        <mat-icon matPrefix>{{ matPrefix }}</mat-icon>
+        <mat-icon matSuffix>search</mat-icon>
+    <mat-autocomplete #auto="matAutocomplete">
+        @for (option of filteredOptions | async; track option) {
+        <mat-option [value]="option">{{option}}</mat-option>
+        }
+    </mat-autocomplete>
+    </mat-form-field>
+</div>

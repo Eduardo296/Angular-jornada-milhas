@@ -14,29 +14,31 @@
                 </mat-chip-listbox>
             </div>
         </div>
-        <div class="flex-container">
-            <mat-form-field appearance="outline">
+        <div class="flex-container flex-container-02">
+            <!--<mat-form-field appearance="outline">
                 <mat-label>Origem</mat-label>
                 <input matInput placeholder="Origem">
                 <mat-icon matPrefix>flight_takeoff</mat-icon>
                 <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>
+            </mat-form-field>-->
+            <app-dropdown-uf class="teste" label="Origem" matPrefix="flight_takeoff"></app-dropdown-uf>
             <button mat-icon-button>
                 <mat-icon>sync_alt</mat-icon>
             </button>
-            <mat-form-field class="input-container" appearance="outline">
+            <app-dropdown-uf label="Destino" matPrefix="flight_land"></app-dropdown-uf>
+            <!--<mat-form-field class="input-container" appearance="outline">
                 <mat-label>Destino</mat-label>
                 <mat-icon matPrefix>flight_land</mat-icon>
                 <input matInput placeholder="Destino" name="destino">
                 <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>
-            <mat-form-field class="input-container" appearance="outline">
+            </mat-form-field>-->
+            <mat-form-field class="teste" appearance="outline" >
                 <mat-label>Data de ida</mat-label>
                 <input matInput [matDatepicker]="ida" [(ngModel)]="dataIda" name="dataIda">
                 <mat-datepicker-toggle matIconSuffix [for]="ida"></mat-datepicker-toggle>
                 <mat-datepicker #ida></mat-datepicker>
             </mat-form-field>
-            <mat-form-field class="input-container" appearance="outline">
+            <mat-form-field class="teste" appearance="outline">
                 <mat-label>Data de Volta</mat-label>
                 <input matInput [matDatepicker]="volta" [(ngModel)]="dataVolta" name="dataVolta">
                 <mat-datepicker-toggle matIconSuffix [for]="volta"></mat-datepicker-toggle>
