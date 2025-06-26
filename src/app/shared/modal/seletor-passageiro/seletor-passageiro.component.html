@@ -1,0 +1,15 @@
+<div class="selecao-idade">
+    <ul>
+        <li>{{title}}</li>
+        <li>{{subtitle}}</li>
+        <li class="selecao-pessoa">
+            <button mat-mini-fab (click)="decrement()">
+                <img src="assets/icones/do_not_disturb_on.png" alt="subtração" >
+            </button>
+            <span>{{ value }}</span>
+            <button mat-mini-fab (click)="increment()">
+                <img src="assets/icones/add_circle.png" alt="adição">
+            </button>
+        </li>
+    </ul>
+</div>
