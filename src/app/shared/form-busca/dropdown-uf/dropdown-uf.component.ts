@@ -24,6 +24,7 @@ export class DropdownUfComponent implements OnInit {
   myControl = new FormControl('');
   @Input() label: string = '';
   @Input() matPrefix: string = '';
+  @Input() control!: FormControl;
 
   unidadesFederativa: UnidadeFederativa[] = [];
   filteredOptions!: Observable<string[]>;
@@ -39,14 +40,14 @@ export class DropdownUfComponent implements OnInit {
         startWith(''),
         map(dados => this._filter(dados || '')),
       );
-    } 
-  )}
+    })
+  }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.unidadesFederativa
-      .map(dados => typeof dados === 'string' ? dados : dados.nome) 
+      .map(dados => typeof dados === 'string' ? dados : dados.nome)
       .filter(dados => dados.toLowerCase().includes(filterValue));
   }
 }
