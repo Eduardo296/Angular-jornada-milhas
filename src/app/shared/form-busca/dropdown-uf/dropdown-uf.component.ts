@@ -20,32 +20,29 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dropdown-uf.component.html',
   styleUrl: './dropdown-uf.component.scss'
 })
+
 export class DropdownUfComponent implements OnInit {
-  myControl = new FormControl('');
   @Input() label: string = '';
   @Input() matPrefix: string = '';
-  @Input() control!: FormControl;
+  @Input() control: FormControl = new FormControl();
 
   unidadesFederativa: UnidadeFederativa[] = [];
   filteredOptions!: Observable<string[]>;
 
-  constructor(private unidadeFederativaService: UnidadeFederativaService) {
-
-  }
+  constructor(private unidadeFederativaService: UnidadeFederativaService) {}
 
   ngOnInit(): void {
     this.unidadeFederativaService.listar().subscribe(dados => {
       this.unidadesFederativa = dados;
-      this.filteredOptions = this.myControl.valueChanges.pipe(
+      this.filteredOptions = this.control.valueChanges.pipe(
         startWith(''),
-        map(dados => this._filter(dados || '')),
+        map(value => this._filter(value || '')),
       );
-    })
+    });
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.unidadesFederativa
       .map(dados => typeof dados === 'string' ? dados : dados.nome)
       .filter(dados => dados.toLowerCase().includes(filterValue));

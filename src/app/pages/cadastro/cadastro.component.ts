@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { BannerComponent } from '../../shared/banner/banner.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { ContainerComponent } from '../../shared/container/container.component';
@@ -9,12 +9,18 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DropdownUfComponent } from '../../shared/form-busca/dropdown-uf/dropdown-uf.component';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { FormGroup, FormBuilder, Validators, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { UnidadeFederativa } from '../../core/types/types';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { User } from '../../core/types/types';
+import { FormControlPipe } from './formControl.form';
+import { ValidateCPF } from '../cpf.validator';
+import { text } from 'stream/consumers';
+import { minWordsValidator } from '../name.validator';
+import { dataNascimento } from '../date.validator';
+
 
 @Component({
   selector: 'app-cadastro',
@@ -33,41 +39,63 @@ import { UnidadeFederativa } from '../../core/types/types';
     MatRadioModule,
     CommonModule,
     FooterComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormControlPipe
   ],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.scss'
 })
 export class CadastroComponent implements OnInit {
-  cadastroForm!: FormGroup;
-  estadoControl = new FormControl<UnidadeFederativa | null>(null, Validators.required);
+  cadastroForm: FormGroup;
+  user: User = { id: 0, nome: '', email: '', senha: '', dataNascimento: new Date(), telefone: '', cpf: '', endereco: { cidade: '', estado: '' }, genero: 'Outro' };
+
   constructor(private formBuilder: FormBuilder) {
-    
-  }
-  ngOnInit(): void {
     this.cadastroForm = this.formBuilder.group({
-      nome: [null, Validators.required  ],
-      nascimento: [null, Validators.required],  
-      cpf: [null, Validators.required ],
+      nome: [null, [Validators.required, minWordsValidator()]],
+      nascimento: [null, [ Validators.required, dataNascimento()]],
+      cpf: [null, [Validators.required, ValidateCPF()]],
       email: [null, [Validators.required, Validators.email]],
       confirmarEmail: [null, [Validators.required, Validators.email]],
-      senha: [null, [Validators.required, Validators.minLength(3)]],
-      confirmarSenha: [null, [Validators.required, Validators.minLength(3)]], 
-      telefone: [null, Validators.required],  
+      senha: [null, [Validators.required, Validators.minLength(6),]],
+      confirmarSenha: [null, [Validators.required, Validators.minLength(6)]],
+      telefone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
+      estado: [null, Validators.required],
       cidade: [null, Validators.required],
-      estado: this.estadoControl,
-      aceitarTermos: [false, Validators.requiredTrue],
-      genero: ['outro'],  
+      genero: ['outro'],
     });
   }
 
+  ngOnInit() {
+    this.cadastroForm.get('telefone')?.valueChanges.subscribe(value => {
+      if (value) {
+        const formatted = this.formatTelefone(value);
+        if (value !== formatted) {
+          this.cadastroForm.get('telefone')?.setValue(formatted, { emitEvent: false });
+        }
+      }
+    });
+  }
+
+  formatTelefone(telefone: string) {
+    telefone = telefone.replace(/\D/g, '');
+    if (telefone.length > 10) {
+      return telefone.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+    } else if (telefone.length > 6) {
+      return telefone.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+    } else if (telefone.length > 2) {
+      return telefone.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+    } else {
+      return telefone.replace(/^(\d*)/, '($1');
+    }
+  }
+
   executar() {
-    if (true) {
-      console.log(this.cadastroForm.valid);
+    if (this.cadastroForm.valid) {
+      console.log('Formulário válido', this.cadastroForm.value);
     } else {
       this.cadastroForm.markAllAsTouched();
     }
-    
+
   }
 
 }
