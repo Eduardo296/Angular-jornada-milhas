@@ -15,7 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
-import { DropdownUfComponent } from './dropdown-uf/dropdown-uf.component';
+import { DropdownUfComponent } from '../dropdown-uf/dropdown-uf.component';
 
 export const MY_DATE_FORMATS = {
   parse: { dateInput: 'DD/MM/YYYY' },

@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { DropdownUfComponent } from '../../shared/form-busca/dropdown-uf/dropdown-uf.component';
+import { DropdownUfComponent } from '../../shared/dropdown-uf/dropdown-uf.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
 import { CommonModule } from '@angular/common';
@@ -16,12 +16,11 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { User } from '../../core/types/types';
 import { FormControlPipe } from './formControl.form';
-import { ValidateCPF } from '../cpf.validator';
-import { text } from 'stream/consumers';
-import { minWordsValidator } from '../name.validator';
-import { dataNascimento } from '../date.validator';
+import { ValidateCPF } from '../validators/cpf.validator';
+import { minWordsValidator } from '../validators/name.validator';
+import { dataNascimento } from '../validators/date.validator';
 import { CadastroService } from '../../core/services/cadastro.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastro',
@@ -52,7 +51,8 @@ export class CadastroComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private cadastroService: CadastroService
+    private cadastroService: CadastroService,
+    private router: Router
   ) {
     this.cadastroForm = this.formBuilder.group({
       nome: [null, [minWordsValidator()]],
@@ -100,6 +100,7 @@ export class CadastroComponent implements OnInit {
       this.cadastroService.cadastrar(novoCadastro).subscribe({
         next: (value) => {
           console.log('Cadastro realizado com sucesso', value)
+          this.router.navigate(['/login'])
         },
         error: (err) => {
           console.log('Erro ao realizar cadastro', err)
