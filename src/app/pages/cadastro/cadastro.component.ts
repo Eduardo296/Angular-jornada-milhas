@@ -20,6 +20,7 @@ import { ValidateCPF } from '../cpf.validator';
 import { text } from 'stream/consumers';
 import { minWordsValidator } from '../name.validator';
 import { dataNascimento } from '../date.validator';
+import { CadastroService } from '../../core/services/cadastro.service';
 
 
 @Component({
@@ -47,21 +48,24 @@ import { dataNascimento } from '../date.validator';
 })
 export class CadastroComponent implements OnInit {
   cadastroForm: FormGroup;
-  user: User = { id: 0, nome: '', email: '', senha: '', dataNascimento: new Date(), telefone: '', cpf: '', endereco: { cidade: '', estado: '' }, genero: 'Outro' };
+  user: User = { nome: '', email: '', senha: '', dataNascimento: null, telefone: '', cpf: '', cidade: '', endereco: { id: 0, nome: '', sigla: '' }, genero: 'Outro' };
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private cadastroService: CadastroService
+  ) {
     this.cadastroForm = this.formBuilder.group({
-      nome: [null, [Validators.required, minWordsValidator()]],
-      nascimento: [null, [ Validators.required, dataNascimento()]],
+      nome: [null, [minWordsValidator()]],
+      nascimento: [null, [Validators.required, dataNascimento()]], 
       cpf: [null, [Validators.required, ValidateCPF()]],
-      email: [null, [Validators.required, Validators.email]],
-      confirmarEmail: [null, [Validators.required, Validators.email]],
-      senha: [null, [Validators.required, Validators.minLength(6),]],
-      confirmarSenha: [null, [Validators.required, Validators.minLength(6)]],
       telefone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
-      estado: [null, Validators.required],
-      cidade: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      senha: [null, [Validators.required, Validators.minLength(6)]],
       genero: ['outro'],
+      cidade: [null, Validators.required],
+      estado: [null, Validators.required],
+      confirmarEmail: [null, [Validators.required, Validators.email]],
+      confirmarSenha: [null, [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -91,7 +95,16 @@ export class CadastroComponent implements OnInit {
 
   executar() {
     if (this.cadastroForm.valid) {
-      console.log('Formulário válido', this.cadastroForm.value);
+      console.log(this.cadastroForm.value)
+      const novoCadastro = this.cadastroForm.getRawValue();
+      this.cadastroService.cadastrar(novoCadastro).subscribe({
+        next: (value) => {
+          console.log('Cadastro realizado com sucesso', value)
+        },
+        error: (err) => {
+          console.log('Erro ao realizar cadastro', err)
+        }
+      })
     } else {
       this.cadastroForm.markAllAsTouched();
     }

@@ -12,16 +12,13 @@ export interface UnidadeFederativa {
 }
 
 export interface User {
-    id: number;
     nome: string;
     email: string;
     senha: string;
-    dataNascimento: Date;
+    dataNascimento: Date | null;
     telefone: string;
     cpf: string;
-    endereco: {
-        cidade: string;
-        estado: string;
-    };
+    cidade: string;
+    endereco: UnidadeFederativa;
     genero: 'Masculino' | 'Feminino' | 'Outro';
 }

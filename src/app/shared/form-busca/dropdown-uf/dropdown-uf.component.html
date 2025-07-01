@@ -4,10 +4,10 @@
         <input matInput [matAutocomplete]="auto" [formControl]="control">
         <mat-icon matPrefix>{{ matPrefix }}</mat-icon>
         <mat-icon matSuffix>search</mat-icon>
-    <mat-autocomplete #auto="matAutocomplete">
-        @for (option of filteredOptions | async; track option) {
-        <mat-option [value]="option">{{option}}</mat-option>
-        }
-    </mat-autocomplete>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{ option.nome }}
+            </mat-option>
+        </mat-autocomplete>
     </mat-form-field>
 </div>

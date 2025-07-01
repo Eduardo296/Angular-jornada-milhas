@@ -27,18 +27,26 @@ export class DropdownUfComponent implements OnInit {
   @Input() control: FormControl = new FormControl();
 
   unidadesFederativa: UnidadeFederativa[] = [];
-  filteredOptions!: Observable<string[]>;
+  filteredOptions!: Observable<UnidadeFederativa[]>;
 
-  constructor(private unidadeFederativaService: UnidadeFederativaService) {}
+  constructor(private unidadeFederativaService: UnidadeFederativaService) { }
 
   ngOnInit(): void {
     this.unidadeFederativaService.listar().subscribe(dados => {
       this.unidadesFederativa = dados;
       this.filteredOptions = this.control.valueChanges.pipe(
         startWith(''),
-        map(value => this._filter(value || '')),
+        map(value => {
+          const filterValue = typeof value === 'string' ? value.toLowerCase() : value?.nome?.toLowerCase() || '';
+          return this.unidadesFederativa.filter(uf =>
+            uf.nome.toLowerCase().includes(filterValue)
+          );
+        }),
       );
     });
+  }
+  displayFn(estado: UnidadeFederativa | null): string {
+    return estado ? estado.nome : '';
   }
 
   private _filter(value: string): string[] {
