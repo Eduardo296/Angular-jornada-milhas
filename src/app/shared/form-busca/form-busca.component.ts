@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 import { DropdownUfComponent } from '../dropdown-uf/dropdown-uf.component';
+import { FormBuscaService } from '../../core/services/form-busca.service';
 
 export const MY_DATE_FORMATS = {
   parse: { dateInput: 'DD/MM/YYYY' },
@@ -54,14 +55,22 @@ registerLocaleData(localePt, 'pt-BR');
 })
 
 export class FormBuscaComponent {
+  @Output() realizarBusca = new EventEmitter();
   dataIda: Date = new Date();
   dataVolta: Date = new Date();
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog,
+    public formBuscaService: FormBuscaService
+  ) {}
 
   openDialog() {
     this.dialog.open(ModalComponent, {
       width: '50%'
     });
+  }
+  
+  buscar () {
+    const formBusca = this.formBuscaService.formBusca.value;
+    this.realizarBusca.emit(formBusca)
   }
 
 }

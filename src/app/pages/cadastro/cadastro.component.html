@@ -3,12 +3,12 @@
   <mat-card>
     <form [formGroup]="cadastroForm">
       <mat-card-title>
-        Crie sua conta
+        {{titulo}}
       </mat-card-title>
       <section>
-        <div class="acoesPerfil">
+        <div class="acoesPerfil" *ngIf="perfilComponent">
           <h2>Dados pessoais</h2>
-          <button class="logout" mat-stroked-button color="primary">
+          <button class="logout" mat-stroked-button color="primary" type="button" (click)="deslogar()">
             <mat-icon>logout</mat-icon>
             DESLOGAR
           </button>
@@ -24,7 +24,7 @@
           <div class="grid-item">
             <mat-form-field appearance="outline" class="date">
               <mat-label>Data de Nascimento</mat-label>
-              <input matInput [(ngModel)]="user.dataNascimento" formControlName="nascimento"
+              <input matInput [(ngModel)]="user.nascimento" formControlName="nascimento"
                 [matDatepicker]="nascimento" placeholder="Data de Nascimento">
               <mat-datepicker-toggle matSuffix [for]="nascimento"></mat-datepicker-toggle>
               <mat-datepicker #nascimento></mat-datepicker>
@@ -106,7 +106,9 @@
         </div>
       </mat-card-content>
       <mat-card-actions class="full-width">
-        <button mat-flat-button type="button" (click)="executar()" color="primary" class="confirm">CADASTRAR
+        <button mat-flat-button type="button" color="primary" class="confirm"
+          (click)="perfilComponent ? atualizar() : executar()">
+          {{textoButton}}
         </button>
       </mat-card-actions>
     </form>

@@ -44,7 +44,7 @@
                 <mat-datepicker-toggle matIconSuffix [for]="volta"></mat-datepicker-toggle>
                 <mat-datepicker #volta></mat-datepicker>
             </mat-form-field>
-            <button class="buscar" mat-flat-button color="primary">BUSCAR</button>
+            <button class="buscar" (click)="buscar()" mat-flat-button color="primary">BUSCAR</button>
         </div>
     </form>
 </app-card>

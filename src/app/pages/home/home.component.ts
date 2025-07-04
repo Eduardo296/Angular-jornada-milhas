@@ -8,6 +8,7 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 import { PromocaoService } from '../../core/services/promocao.service';
 import { Promocao } from '../../core/types/types';
 import { NgForOf } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,9 @@ import { NgForOf } from '@angular/common';
 })
 export class HomeComponent implements OnInit {
   promocoes!: Promocao[];
-  constructor(private servicoPromocao: PromocaoService) {
+  constructor(private servicoPromocao: PromocaoService,
+    private router: Router
+  ) {
 
   }
   ngOnInit(): void {
@@ -36,4 +39,7 @@ export class HomeComponent implements OnInit {
     )
   }
 
+  navegarBusca(ev: any) {
+    this.router.navigate(['busca']);
+  }
 }

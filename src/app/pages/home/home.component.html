@@ -1,7 +1,7 @@
 <app-banner src="assets\images\Banner_homepage.png" alt="Banner"></app-banner>
 <app-container>
     <h2>Passagens</h2>
-    <app-form-busca ngSkipHydration></app-form-busca>
+    <app-form-busca ngSkipHydration (realizarBusca)="navegarBusca($event)"></app-form-busca>
     <h2>Promoções</h2>
     <div class="card-wrapper">
         <app-card-busca *ngFor="let item of promocoes" [promocao]="item"></app-card-busca>

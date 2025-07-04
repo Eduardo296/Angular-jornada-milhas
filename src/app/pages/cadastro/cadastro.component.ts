@@ -1,4 +1,4 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, Input, OnInit, } from '@angular/core';
 import { BannerComponent } from '../../shared/banner/banner.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,6 +21,8 @@ import { minWordsValidator } from '../validators/name.validator';
 import { dataNascimento } from '../validators/date.validator';
 import { CadastroService } from '../../core/services/cadastro.service';
 import { Router } from '@angular/router';
+import { UserService } from '../../core/services/user.service';
+import { TokenService } from '../../core/services/token.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -46,17 +48,24 @@ import { Router } from '@angular/router';
   styleUrl: './cadastro.component.scss'
 })
 export class CadastroComponent implements OnInit {
+  @Input() perfilComponent = false;
+  @Input() titulo: string = 'Crie sua conta';
+  @Input() textoButton: string = 'CADASTRAR'
+
   cadastroForm: FormGroup;
-  user: User = { nome: '', email: '', senha: '', dataNascimento: null, telefone: '', cpf: '', cidade: '', endereco: { id: 0, nome: '', sigla: '' }, genero: 'Outro' };
+  user: User = { nome: '', email: '', senha: '', nascimento: null, telefone: '', cpf: '', cidade: '', estado: { id: 0, nome: '', sigla: '' }, genero: 'Outro' };
+  token: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
+    private tokenService: TokenService,
     private cadastroService: CadastroService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
     this.cadastroForm = this.formBuilder.group({
       nome: [null, [minWordsValidator()]],
-      nascimento: [null, [Validators.required, dataNascimento()]], 
+      nascimento: [null, [Validators.required, dataNascimento()]],
       cpf: [null, [Validators.required, ValidateCPF()]],
       telefone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
       email: [null, [Validators.required, Validators.email]],
@@ -70,6 +79,7 @@ export class CadastroComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.token = this.tokenService.retornarToken();
     this.cadastroForm.get('telefone')?.valueChanges.subscribe(value => {
       if (value) {
         const formatted = this.formatTelefone(value);
@@ -109,7 +119,32 @@ export class CadastroComponent implements OnInit {
     } else {
       this.cadastroForm.markAllAsTouched();
     }
-
   }
-
+  atualizar() {
+    const estado = this.cadastroForm?.value.estado;
+    const dadosAtualizados = {
+      nome: this.cadastroForm?.value.nome,
+      nascimento: this.cadastroForm?.value.nascimento,
+      cpf: this.cadastroForm?.value.cpf,
+      telefone: this.cadastroForm?.value.telefone,
+      email: this.cadastroForm?.value.email,
+      senha: this.cadastroForm?.value.senha,
+      genero: this.cadastroForm?.value.genero,
+      cidade: this.cadastroForm?.value.cidade,
+      estado: estado
+    };
+    this.cadastroService.editarCadastro(dadosAtualizados, this.token).subscribe({
+      next: () => {
+        alert('Cadastro editado com sucesso')
+        this.router.navigate(['']);
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+  }
+    deslogar() {
+      this.userService.logout();
+      this.router.navigate(['']);
+    }
 }
