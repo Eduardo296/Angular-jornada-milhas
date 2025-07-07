@@ -11,7 +11,7 @@
                     <a routerLink="/perfil">
                         <img src="assets/icones/user.png" alt="Icone Pessoa">
                     </a>
-                    <button mat-stroked-button>SAIR</button>
+                    <button mat-stroked-button (click)="deslogar()">SAIR</button>
                 </ng-container>
                 <ng-template #login>
                     <button mat-raised-button class="cadastre-button" [routerLink]="['register']">CADASTRE-SE</button>

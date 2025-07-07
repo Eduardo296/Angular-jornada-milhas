@@ -8,7 +8,6 @@ import { User } from '../types/types';
   providedIn: 'root'
 })
 export class CadastroService {
-
   private apiUrl: string = environment.apiUrl;
   constructor(private http: HttpClient) { }
 

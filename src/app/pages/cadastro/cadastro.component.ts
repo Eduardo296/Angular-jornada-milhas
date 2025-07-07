@@ -143,8 +143,11 @@ export class CadastroComponent implements OnInit {
       }
     })
   }
-    deslogar() {
-      this.userService.logout();
-      this.router.navigate(['']);
-    }
+  deslogar() {
+    this.userService.logout();
+    this.router.navigate(['']);
+  }
+  
+
+
 }

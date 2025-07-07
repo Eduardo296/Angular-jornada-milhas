@@ -1,10 +1,12 @@
 <div class="busca-page">
     <app-banner src="assets/images/banner-busca.png"></app-banner>
-    <app-container>
-        <app-form-busca></app-form-busca>
-        <section class="conteudo">
-            Filtros, Cards de Recomendados e Cards de Passagens
-        </section>
+    <app-container class="alinhar">
+        <app-form-busca (realizarBusca)="busca($event)"></app-form-busca>
+        <aside class="filtros-adicionais">
+            <app-filtros-complementares ngSkipHydration (realizarBusca)="busca($event)"></app-filtros-complementares>
+        </aside>
+        <app-passagem *ngFor="let passagem of passagens" textoIdaVolta="Ida e volta"
+            [passagem]="passagem"></app-passagem>
     </app-container>
     <app-footer></app-footer>
 </div>

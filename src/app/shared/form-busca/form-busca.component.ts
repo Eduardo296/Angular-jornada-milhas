@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,13 +10,14 @@ import { DatePipe, CommonModule } from '@angular/common'
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 import { DropdownUfComponent } from '../dropdown-uf/dropdown-uf.component';
 import { FormBuscaService } from '../../core/services/form-busca.service';
+import { FormControlPipe } from '../../pages/cadastro/formControl.form';
 
 export const MY_DATE_FORMATS = {
   parse: { dateInput: 'DD/MM/YYYY' },
@@ -44,7 +45,9 @@ registerLocaleData(localePt, 'pt-BR');
     FormsModule,
     MatNativeDateModule,
     MatButtonModule,
-    DropdownUfComponent
+    DropdownUfComponent,
+    ReactiveFormsModule,
+    FormControlPipe
   ],
   templateUrl: './form-busca.component.html',
   styleUrl: './form-busca.component.scss',
@@ -56,21 +59,27 @@ registerLocaleData(localePt, 'pt-BR');
 
 export class FormBuscaComponent {
   @Output() realizarBusca = new EventEmitter();
-  dataIda: Date = new Date();
-  dataVolta: Date = new Date();
-  constructor(public dialog: MatDialog,
-    public formBuscaService: FormBuscaService
-  ) {}
+  constructor(
+    public dialog: MatDialog,
+    public formBuscaService: FormBuscaService,
+  ) {
+  }
 
   openDialog() {
     this.dialog.open(ModalComponent, {
       width: '50%'
     });
   }
-  
-  buscar () {
-    const formBusca = this.formBuscaService.formBusca.value;
-    this.realizarBusca.emit(formBusca)
+
+  buscar() {
+    if (this.formBuscaService.formEstaValido) {
+      const formBusca = this.formBuscaService.obterDadosBusca();
+      this.realizarBusca.emit(formBusca)
+    } else {
+       this.formBuscaService.formBusca.markAllAsTouched();
+    }
+
   }
+  
 
 }
